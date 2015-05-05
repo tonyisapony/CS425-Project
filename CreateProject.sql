@@ -2,7 +2,7 @@
 -------------------------------------
 --DROPS FOR REMAKING TABLES
 -------------------------------------
-DROP TABLE Membership;
+  DROP TABLE Membership;
   DROP TABLE BankAcc;
   DROP TABLE CreditCard;
   DROP TABLE Group1;
@@ -11,6 +11,8 @@ DROP TABLE Membership;
   DROP TABLE LaptopComments;
   DROP TABLE Leader;
   DROP TABLE Points;
+ 
+  
 
 CREATE TABLE Membership(
     id INT PRIMARY KEY NOT NULL,
@@ -18,7 +20,7 @@ CREATE TABLE Membership(
     password VARCHAR(30) NOT NULL,
     email VARCHAR(30) UNIQUE NOT NULL,
     dateOfReg DATE DEFAULT SYSDATE,
-    balance DOUBLE DEFAULT NULL,
+    balance REAL DEFAULT NULL,
     memPoits INT DEFAULT NULL
     );
   
