@@ -135,7 +135,7 @@ public class Main {
 
 					if(id==mem.getID()){
 						System.out.println("\nYou are an admin for this group\n");
-						mem.setMemTypeG1(MemType.ADMIN);
+						mem.setMemTypeG1(MemType.LEADER);
 					}
 				}
 				System.out.println("Now listing the 20 most recent restaurants: \n");
@@ -182,8 +182,8 @@ public class Main {
 	    		while(rs.next()){
 	    			int id=rs.getInt("memID");
 	    			if(id==mem.getID()){
-	    				System.out.println("You are an admin for this group");
-	    				mem.setMemTypeG2(MemType.ADMIN);
+	    				System.out.println("You are a leader for this group");
+	    				mem.setMemTypeG2(MemType.LEADER);
 	    		}
 	    	}
 			}

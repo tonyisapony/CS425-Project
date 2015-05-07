@@ -1,4 +1,4 @@
 
 public enum MemType {
-ADMIN,MEMBER
+LEADER,MEMBER
 }

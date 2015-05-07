@@ -48,11 +48,15 @@ CREATE TABLE CreditCard(
     RestName VARCHAR(30) NOT NULL,
     Rating REAL NOT NULL
     );
+    
+  CREATE TABLE Group1Members(
+    MemID INT NOT NULL,
+    FOREIGN KEY(memID) REFERENCES Membership(id)
+    );
   
   CREATE TABLE Review(
     RestID INT NOT NULL,
     FOREIGN KEY(RestID) REFERENCES Group1(id),
-    Restaurant VARCHAR(50) NOT NULL,
     Review VARCHAR(180) NOT NULL
     );
   
@@ -60,6 +64,11 @@ CREATE TABLE CreditCard(
     id INT PRIMARY KEY NOT NULL,
     LaptopName VARCHAR(30) NOT NULL,
     Brand VARCHAR(30) NOT NULL
+    );
+    
+CREATE TABLE Group2Members(
+    MemID INT NOT NULL,
+    FOREIGN KEY(memID) REFERENCES Membership(id)
     );
   
   CREATE TABLE LaptopComments(

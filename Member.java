@@ -4,7 +4,8 @@ public class Member {
 	String name;
 	double balance;
 	int points;
-	MemType type;
+	MemType group1;
+	MemType group2;
 	
 	public Member(int id, String n) {
 		this.Currentid=id;
@@ -17,8 +18,11 @@ public class Member {
 	public void setBalance(double b){
 		balance=b;
 	}
-	public void setMemType(MemType t){
-		
+	public void setMemTypeG1(MemType t){
+		this.group1=t;
+	}
+	public void setMemTypeG2(MemType t){
+		this.group2=t;
 	}
 	
 	public int getPoints(){
@@ -30,5 +34,10 @@ public class Member {
 	public int getID(){
 		return this.Currentid;
 	}
-
+	public MemType getMemTypeG1(){
+		return this.group1;
+	}
+	public MemType getMeTypeG3(){
+		return this.group2;
+	}
 }
