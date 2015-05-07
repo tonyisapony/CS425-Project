@@ -52,7 +52,8 @@ CREATE TABLE CreditCard(
   CREATE TABLE Review(
     RestID INT NOT NULL,
     FOREIGN KEY(RestID) REFERENCES Group1(id),
-    Review VARCHAR(30) NOT NULL
+    Restaurant VARCHAR(50) NOT NULL,
+    Review VARCHAR(180) NOT NULL
     );
   
   CREATE TABLE Group2(
