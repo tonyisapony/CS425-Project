@@ -2,17 +2,17 @@
 -------------------------------------
 --DROPS FOR REMAKING TABLES
 -------------------------------------
-  DROP TABLE Membership;
   DROP TABLE BankAcc;
   DROP TABLE CreditCard;
-  DROP TABLE Group1;
   DROP TABLE Group1Members;
   DROP TABLE Review;
+  DROP TABLE LaptopComments;
+  DROP TABLE Group1;
   DROP TABLE Group2;
   DROP TABLE Group2Members;
-  DROP TABLE LaptopComments;
   DROP TABLE Leader;
   DROP TABLE Points;
+  DROP TABLE Membership;
  
   
 
@@ -62,10 +62,11 @@ CREATE TABLE CreditCard(
     Review VARCHAR(180) NOT NULL
     );
   
-  CREATE TABLE Group2(
+CREATE TABLE Group2(
     id INT PRIMARY KEY NOT NULL,
     LaptopName VARCHAR(30) NOT NULL,
-    Brand VARCHAR(30) NOT NULL
+    Brand VARCHAR(30) NOT NULL,
+    NumOfComments INT NOT NULL
     );
     
 CREATE TABLE Group2Members(
