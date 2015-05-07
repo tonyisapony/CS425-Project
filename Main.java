@@ -121,6 +121,7 @@ public class Main {
 		    		int del=scan.nextInt();
 		    		mm.deleteMember(del);
 		    	}
+		    	System.out.println("Goodbye!");
 		    	System.exit(0);
 		    }
 		    
