@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Main {
 	
 	static final String host="jdbc:oracle:thin:@fourier.cs.iit.edu:1521:orcl";
-	static final String uName="";
-	static final String uPass="";
+	static final String uName="restrad2";
+	static final String uPass="tsukuyomi";
 	static Member mem=null;
 	static boolean admin=false;
 			
@@ -272,7 +272,7 @@ public class Main {
 	
 	public static void Laptops()
 	{
-		System.out.println("You have now been signed into the Restaurant Interest Group.");
+		System.out.println("You have now been signed into the Laptops Interest Group.");
 		Connection con=null;
 		String sql=null;
 		Scanner scan=new Scanner(System.in);			
@@ -285,6 +285,7 @@ public class Main {
 				stmt=con.createStatement();
 		    	sql="SELECT memID FROM LEADER WHERE GroupNum=2";
 	    		rs=stmt.executeQuery(sql);
+	    		int memid = mem.getID();
 	    		while(rs.next()){
 	    			int id=rs.getInt("memID");
 	    			if(id==mem.getID()){
@@ -292,6 +293,10 @@ public class Main {
 	    				mem.setMemTypeG2(MemType.LEADER);
 	    		}
 	    	}
+	    		System.out.println("Now listing the 20 most commented on Laptops: \n");
+				ListLaptops ll=new ListLaptops(20);
+				ll.List(memid);
+
 			}
 	    	
 			catch(SQLException err){
