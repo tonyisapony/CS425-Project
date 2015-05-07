@@ -22,9 +22,10 @@
 			    	  rs.close();
 			 	  }catch(SQLException se){
 			 	  }// do nothing
-			      }
+			      
 			      try{
 			          con.close();
 			      }catch(SQLException se){
 			         se.printStackTrace();
 			      }//end finally try	
+			}
