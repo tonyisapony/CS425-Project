@@ -77,6 +77,8 @@ CREATE TABLE Group2Members(
   CREATE TABLE LaptopComments(
     LapID INT NOT NULL,
     FOREIGN KEY(LapID) REFERENCES Group2,
+    MemID INT NOT NULL,
+    FOREIGN KEY(MemID) REFERENCES MEMBERSHIP,
     Comments VARCHAR(30)NOT NULL,
     CommentType VARCHAR(30) NOT NULL
     CHECK(CommentType='Help' OR CommentType='Review' OR CommentType='Sell' OR CommentType='Buy' OR CommentType='Trade'),
