@@ -79,7 +79,8 @@ CREATE TABLE Group2Members(
     FOREIGN KEY(LapID) REFERENCES Group2,
     Comments VARCHAR(30)NOT NULL,
     CommentType VARCHAR(30) NOT NULL
-    CHECK(CommentType='Help' OR CommentType='Review' OR CommentType='Sell' OR CommentType='Buy' OR CommentType='Trade')
+    CHECK(CommentType='Help' OR CommentType='Review' OR CommentType='Sell' OR CommentType='Buy' OR CommentType='Trade'),
+    NumOfComments INT NOT NULL
     );
   
   CREATE TABLE Leader(
