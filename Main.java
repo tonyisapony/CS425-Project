@@ -177,6 +177,8 @@ public class Main {
 		String sql=null;
 		Scanner scan=new Scanner(System.in);			
 		ResultSet rs1=null;
+		ResultSet rs=null;
+		ResultSet rs3=null;
 		Statement stmt=null;
 			try{	
 				OracleDataSource ds=new OracleDataSource();
@@ -196,7 +198,56 @@ public class Main {
 				System.out.println("Now listing the 20 most recent restaurants: \n");
 				ListRestaurants lr=new ListRestaurants(20);
 				lr.List();
-
+				System.out.println("What would you like to do? \n 1:Post a new restaurant 2: Review a restaurant");
+				int in=scan.nextInt();
+				if(in==1){
+			    	sql="SELECT MAX(id) AS LastID FROM Group1";
+			    	rs=stmt.executeQuery(sql);
+			    	rs.next();
+			    	int currid=rs.getInt("LastID");
+			    	currid++;
+			    	System.out.println("Please enter the name of the restaurtant: ");
+			    	String name=scan.next();
+			    	sql="INSERT INTO GROUP1 (id,restname) VALUES ("+currid+",'"+name+"')";
+			    	stmt.executeUpdate(sql);
+			    	System.out.println("Successfully added a new restaurant");
+					System.exit(0);
+				}
+				if(in==2){
+					System.out.println("Please select restaurant id: ");
+					int restid=scan.nextInt();
+					System.out.println("Outputting the current reviews...");
+					sql="SELECT review FROM REVIEW WHERE RestID="+restid;
+					rs=stmt.executeQuery(sql);
+					while(rs.next()){
+						String rev=rs.getString("review");
+						System.out.println("Review: "+rev);
+					}
+					System.out.println("What would you like to do? 1:Add a review 2:Rate the restaurant");
+					int resin=scan.nextInt();
+					if(resin==1){
+						System.out.println("Enter the review: ");
+						String rev=scan.next();
+						sql="INSERT INTO REVIEW (RestID,Review) VALUES ("+restid+",'"+rev+"')";
+						stmt.executeUpdate(sql);
+						System.out.println("Successfully posted review");
+						System.exit(0);
+					}
+					if(resin==2){
+						System.out.println("Would you like to rate it up or down? Enter 1 to rate up and -1 to rate down");
+						int rate=scan.nextInt();
+						sql="SELECT RATING FROM GROUP1 WHERE id="+restid;
+						rs=stmt.executeQuery(sql);
+						rs.next();
+						int rating=rs.getInt("rating");
+						rating+=rate;
+						sql="UPDATE Group1 SET Rating="+rating+" WHERE id="+restid;
+						stmt.executeUpdate(sql);
+						System.out.println("You have successfully rated the restaurant");
+						System.exit(0);
+					}
+				}
+						
 			}
 			catch(SQLException err){
 				System.out.println(err.getMessage());
