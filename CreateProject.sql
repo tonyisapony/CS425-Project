@@ -28,7 +28,7 @@ CREATE TABLE Membership(
   
 CREATE TABLE BankAcc(
     MemID INT NOT NULL, 
-    FOREIGN KEY(memID) REFERENCES Membership(id),
+    FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE,
     BankName VARCHAR(30) NOT NULL, 
     RoutNumber INT NOT NULL, 
     AccNum INT NOT NULL, 
@@ -37,7 +37,7 @@ CREATE TABLE BankAcc(
     
 CREATE TABLE CreditCard(
     MemID INT NOT NULL,
-    FOREIGN KEY(memID) REFERENCES Membership(id),
+    FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE,
     CardName VARCHAR(30) NOT NULL,
     Company VARCHAR(30) NOT NULL,
     CardNum INT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE CreditCard(
     
   CREATE TABLE Group1Members(
     MemID INT NOT NULL,
-    FOREIGN KEY(memID) REFERENCES Membership(id)
+    FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE
     );
   
   CREATE TABLE Review(
@@ -71,7 +71,7 @@ CREATE TABLE Group2(
     
 CREATE TABLE Group2Members(
     MemID INT NOT NULL,
-    FOREIGN KEY(memID) REFERENCES Membership(id)
+    FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE
     );
   
   CREATE TABLE LaptopComments(
@@ -84,6 +84,7 @@ CREATE TABLE Group2Members(
   
   CREATE TABLE Leader(
     MemID INT NOT NULL,
+    FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE,
     GroupNum INT NOT NULL
     );
   
