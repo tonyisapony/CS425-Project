@@ -85,7 +85,7 @@ public class Main {
 		    }
 		    
 		    if(admin){
-		    	System.out.println("Please chose what would you like to do. 1: Add Leader 2: Remove Leader 3: Look at Member list "
+		    	System.out.println("Please chose what would you like to do. \n1: Add Leader 2: Remove Leader 3: Look at Member list "
 		    			+ "4: Look at a Group list 5: Delete Member 6: Logout");
 		    	int adin=scan.nextInt();
 	    		ModifyMembers mm=new ModifyMembers();
@@ -125,7 +125,8 @@ public class Main {
 		    	System.exit(0);
 		    }
 		    
-			System.out.println("You are now logged in please choose what interest group you would like to access. \n1:Restaurants 2:Laptops");
+			System.out.println("You are now logged in please choose what interest group you would like to access. "
+					+ "\n1:Restaurants 2:Laptops 3: Delete Account 4: Logout");
 				
 	    	int in1=scan.nextInt();
 	    	if (in1==1)
@@ -136,8 +137,15 @@ public class Main {
 	    	{
 	    		Laptops();
 	    	}
-		    
-		    
+	    	else if(in1==3){
+	    		sql="DELETE FROM MEMBERSHIP WHERE id="+mem.getID();
+	    		stmt.executeUpdate(sql);
+	    		System.out.println("Successfully deleted your account, goodbye!");
+	    		System.exit(0);
+	    	}
+	    	else
+	    		System.out.println("Logging out...");
+	    		System.exit(0);
 		}
 		catch(SQLException err){
 			System.out.println(err.getMessage());
