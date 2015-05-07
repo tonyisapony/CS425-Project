@@ -11,6 +11,7 @@ public class Main {
 	static final String uName="";
 	static final String uPass="";
 	static Member mem=null;
+	static boolean admin=false;
 			
 	public static void main(String[] args) {
 		Connection con=null;
@@ -54,6 +55,12 @@ public class Main {
 		    	String passwrd=scan.next();
 		    	sql="SELECT id,name,password FROM Membership";
 		    	rs=stmt.executeQuery(sql);
+		    	if(usrname.equals("admin")&&passwrd.equals("admin")){
+		    		System.out.println("You have logged in as an admin");
+		    		logged=true;
+		    		admin=true;
+		    	}
+		    	else
 		    	while(rs.next()){
 		    		String nm=rs.getString("name");
 		    		String n[]=nm.split(" ",2);
@@ -77,8 +84,47 @@ public class Main {
 		    	System.exit(0);
 		    }
 		    
+		    if(admin){
+		    	System.out.println("Please chose what would you like to do. 1: Add Leader 2: Remove Leader 3: Look at Member list "
+		    			+ "4: Look at a Group list 5: Delete Member 6: Logout");
+		    	int adin=scan.nextInt();
+	    		ModifyMembers mm=new ModifyMembers();
+		    	if(adin==1){
+		    		System.out.println("Enter which group to add the leader to. 1:Group1 2:Group2");
+		    		int g=scan.nextInt();
+		    		ModifyLeaders ml=new ModifyLeaders(g);
+		    		System.out.println("Enter the ID of the new leader: ");
+		    		mm.displayGroupMembers(g);
+		    		int add=scan.nextInt();
+		    		ml.AddLeader(add, g);
+		    	}
+		    	else if(adin==2){
+		    		System.out.println("Enter which group to remove the leader from. 1:Group1 2:Group2");
+		    		int g=scan.nextInt();
+		    		ModifyLeaders ml=new ModifyLeaders(g);
+		    		System.out.println("Enter the ID of the new leader: ");
+		    		mm.displayGroupMembers(g);
+		    		int del=scan.nextInt();
+		    		ml.AddLeader(del, g);
+		    	}
+		    	else if(adin==3){
+		    		mm.displayAllMembers();
+		    	}
+		    	else if(adin==4){
+		    		System.out.println("Enter which group to view. 1:Group1 2:Group2");
+		    		int g=scan.nextInt();
+		    		mm.displayGroupMembers(g);
+		    	}
+		    	else if(adin==5){
+		    		System.out.println("Enter the id of the member you want to delete: ");
+		    		mm.displayAllMembers();
+		    		int del=scan.nextInt();
+		    		mm.deleteMember(del);
+		    	}
+		    	System.exit(0);
+		    }
+		    
 			System.out.println("You are now logged in please choose what interest group you would like to access. \n1:Restaurants 2:Laptops");
-
 				
 	    	int in1=scan.nextInt();
 	    	if (in1==1)

@@ -23,7 +23,7 @@ CREATE TABLE Membership(
     email VARCHAR(30) UNIQUE NOT NULL,
     dateOfReg DATE DEFAULT SYSDATE,
     balance REAL DEFAULT NULL,
-    memPoints INT DEFAULT NULL
+    memPoints INT DEFAULT 0
     );
   
 CREATE TABLE BankAcc(
