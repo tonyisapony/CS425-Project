@@ -6,8 +6,10 @@
   DROP TABLE BankAcc;
   DROP TABLE CreditCard;
   DROP TABLE Group1;
+  DROP TABLE Group1Members;
   DROP TABLE Review;
   DROP TABLE Group2;
+  DROP TABLE Group2Members;
   DROP TABLE LaptopComments;
   DROP TABLE Leader;
   DROP TABLE Points;
@@ -21,7 +23,7 @@ CREATE TABLE Membership(
     email VARCHAR(30) UNIQUE NOT NULL,
     dateOfReg DATE DEFAULT SYSDATE,
     balance REAL DEFAULT NULL,
-    memPoits INT DEFAULT NULL
+    memPoints INT DEFAULT NULL
     );
   
 CREATE TABLE BankAcc(
