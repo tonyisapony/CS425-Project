@@ -41,7 +41,7 @@ CREATE TABLE CreditCard(
     FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE,
     CardName VARCHAR(30) NOT NULL,
     Company VARCHAR(30) NOT NULL,
-    CardNum INT NOT NULL,
+    CardNum INT UNIQUE NOT NULL,
     Address VARCHAR(30) NOT NULL,
     ExpDate DATE NOT NULL,
     Balance INT NOT NULL
@@ -54,7 +54,7 @@ CREATE TABLE CreditCard(
     );
     
   CREATE TABLE Group1Members(
-    MemID INT NOT NULL,
+    MemID INT UNIQUE NOT NULL,
     FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE
     );
   
@@ -74,12 +74,12 @@ CREATE TABLE Group2(
     );
     
 CREATE TABLE Group2Members(
-    MemID INT NOT NULL,
+    MemID INT UNIQUE NOT NULL,
     FOREIGN KEY(memID) REFERENCES Membership(id) ON DELETE CASCADE
     );
   
   CREATE TABLE LaptopComments(
-  ID INT NOT NULL,
+  CommentID INT NOT NULL,
     LapID INT NOT NULL,
     FOREIGN KEY(LapID) REFERENCES Group2 ON DELETE CASCADE,
     MemID INT NOT NULL,
@@ -106,13 +106,8 @@ CREATE TABLE Group2Points(
     
 CREATE VIEW viewAll AS SELECT id,name,mempoints FROM MEMBERSHIP;
     
-<<<<<<< HEAD
 INSERT INTO Group1Points (Contribution) VALUES('add rest');
 INSERT INTO Group1Points (Contribution) VALUES('rate');
 INSERT INTO Group1Points (Contribution) VALUES('review');
 /*save to pull*/
-=======
-INSERT INTO Group1Points (Contribution,NumPoints) VALUES('addRest',3);
-INSERT INTO Group1Points (Contribution,NumPoints) VALUES('rate',1);
-INSERT INTO Group1Points (Contribution,NumPoints) VALUES('review',2);
->>>>>>> origin/master
+

@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Main {
 	
 	static final String host="jdbc:oracle:thin:@fourier.cs.iit.edu:1521:orcl";
-	static final String uName="apatlan1";
-	static final String uPass="Noob1995";
+	static final String uName="restrad2";
+	static final String uPass="tsukuyomi";
 	static Member mem=null;
 	static boolean admin=false;
 			
@@ -220,7 +220,7 @@ public class Main {
 						mem.setMemTypeG1(MemType.MEMBER);
 				}
 				System.out.println("The top 5 point holders are:");
-				sql="SELECT name, mempoints FROM (SELECT name, mempoints FROM MEMBERSHIP ORDER BY MEMPOINTS DESC) "
+				sql="SELECT name, mempoints FROM (SELECT name, mempoints FROM MEMBERSHIP,GROUP1MEMBERS WHERE id=memid ORDER BY MEMPOINTS DESC) "
 						+ "WHERE ROWNUM<=5 ORDER BY MEMPOINTS DESC";
 				rs3=stmt.executeQuery(sql);
 				int i=1;
@@ -372,6 +372,7 @@ public class Main {
 		ResultSet rs=null;
 		ResultSet rs1=null;
 		ResultSet rs2=null;
+		ResultSet rs3=null;
 		Statement stmt=null;
 		boolean newmem=true;
 		boolean leader=false;
@@ -413,9 +414,20 @@ public class Main {
 				//ALSO BE ABLE TO BUY,SELL,TRADE.
 				//SHOULD HAVE ENOUGH MONEY IN ACCOUNT IN ORDER TO BUY
 				//MONEY IS ADDED WHEN SELLING ITEM, TRANSFER MONEY FROM BANK AND CREDIT CARD TO WEB ACCOUNT
+				System.out.println("The top 5 point holders are:");
+				sql="SELECT name, mempoints FROM (SELECT name, mempoints FROM MEMBERSHIP,GROUP2MEMBERS WHERE id=memid ORDER BY MEMPOINTS DESC) "
+						+ "WHERE ROWNUM<=5 ORDER BY MEMPOINTS DESC";
+				rs3=stmt.executeQuery(sql);
+				int i=1;
+				while(rs3.next()&&i>0){
+					String n=rs3.getString("name");
+					int points=rs3.getInt("mempoints");
+					System.out.println(i+": "+n+" with "+points+" points");
+					i++;
+				}
 	    		System.out.println("Now listing the 20 most recently commented on Laptops: \n");
 				ListLaptops ll=new ListLaptops(20);
-				ll.List();
+				ll.List(1);
 				if(leader){
 					System.out.println("What would you like to do? \n1:Post a new laptop 2:Review a laptop 3:Change contribution point values");
 					
