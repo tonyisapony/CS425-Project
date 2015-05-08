@@ -67,7 +67,9 @@ CREATE TABLE Group2(
     id INT PRIMARY KEY NOT NULL,
     LaptopName VARCHAR(30) NOT NULL,
     Brand VARCHAR(30) NOT NULL,
-    NumOfComments INT NOT NULL
+    NumOfComments INT NOT NULL,
+    Rate INT NOT NULL,
+    Price INT DEFAULT 0
     );
     
 CREATE TABLE Group2Members(
@@ -83,8 +85,7 @@ CREATE TABLE Group2Members(
     Comments VARCHAR(30)NOT NULL,
     CommentType VARCHAR(30) NOT NULL
     CHECK(CommentType='Help' OR CommentType='Review' OR CommentType='Sell' OR CommentType='Buy' OR CommentType='Trade'),
-    NumOfComments INT NOT NULL,
-    Price INT DEFAULT 0
+    NumOfComments INT NOT NULL
     );
   
   CREATE TABLE Leader(
