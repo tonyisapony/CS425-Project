@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Main {
 	
 	static final String host="jdbc:oracle:thin:@fourier.cs.iit.edu:1521:orcl";
-	static final String uName="restrad2";
-	static final String uPass="tsukuyomi";
+	static final String uName="apatlan1";
+	static final String uPass="Noob1995";
 	static Member mem=null;
 	static boolean admin=false;
 			
@@ -362,6 +362,7 @@ public class Main {
 			      }//end finally try
 	}
 	
+	
 	public static void Laptops()
 	{
 		System.out.println("You have now been signed into the Laptops Interest Group.");
@@ -373,7 +374,6 @@ public class Main {
 		ResultSet rs2=null;
 		Statement stmt=null;
 		boolean newmem=true;
-		Scanner scan1=new Scanner(System.in);
 		boolean leader=false;
 			try{	
 				OracleDataSource ds=new OracleDataSource();
@@ -425,7 +425,7 @@ public class Main {
 				int in1=scan.nextInt();
 				if(in1==1)
 				{
-					sql="SELECT MAX(id) AS LastID FROM Group1";
+					sql="SELECT MAX(id) AS LastID FROM Group2";
  			    	rs=stmt.executeQuery(sql);
  			    	rs.next();
  			    	int currid=rs.getInt("LastID");
@@ -454,7 +454,7 @@ public class Main {
 						System.out.println("Type in the brand of computer you want to search by:");
 						String brand1=scan.next();
 						System.out.println("Collecting data");
-						sql="SELECT * FROM GROUP2 WHERE brand = "+brand1;
+						sql="SELECT * FROM GROUP2 WHERE BRAND = "+brand1;
 						rs=stmt.executeQuery(sql);
 						while(rs.next()){
 							int num=rs.getInt("id");
@@ -476,7 +476,7 @@ public class Main {
 						
 						System.out.println("Please select comment id: ");
 						int comid=scan.nextInt();
-						sql="SELECT * FROM LAPTOPCOMMENTS WHERE ID="+id;
+						sql="SELECT * FROM LAPTOPCOMMENTS WHERE ID="+comid;
 						rs=stmt.executeQuery(sql);
 						rs.next();
 							String com=rs.getString("Comment");
@@ -488,12 +488,12 @@ public class Main {
 						if(decision==1&&type1=="Buy")
 						{
 							System.out.println("Redirecting you to the sale screen");
-							sell();
+							sell(comid);
 						}
 						else if(decision==1&&type1=="Sell")
 						{
 							System.out.println("Redirecting you to the purchase screen");
-							buy();
+							buy(comid);
 						}
 						else if(decision==1&&type1=="Trade")
 						{
@@ -577,19 +577,63 @@ public class Main {
 			      }//end finally try
 		}
 	
-	public static void buy()
+	public static void buy(int a)
 	{
-		
+		System.out.println("You are now in the purchase menu all transactions done through here are final.");
+		Connection con=null;
+		String sql=null;			
+		ResultSet rs=null;
+		Statement stmt=null;
+			try{	
+				OracleDataSource ds=new OracleDataSource();
+				ds.setURL(host);
+				con=ds.getConnection(uName,uPass);
+				stmt=con.createStatement();
+				sql="SELECT * FROM LAPTOPCOMMENTS WHERE ID ="+a;
+				rs=stmt.executeQuery(sql);
+				rs.next();
+				String com=rs.getString("Comment");
+				String type1=rs.getString("Commenttype");
+				System.out.println("Comment: "+com+"  Do you want to "+type1+" this laptop?");
+			
+			    System.out.println("1:Yes   2:No");
+			}
+			catch(SQLException err){
+				System.out.println(err.getMessage());
+			}finally{
+			      //finally block used to close resources
+			      try{
+			            stmt.close();
+			      }catch(SQLException se){
+			      }// do nothing
+			      try{
+			    	  rs.close();
+			 	  }catch(SQLException se){
+			 	  }// do nothing
+			      
+			      try{
+			          con.close();
+			      }catch(SQLException se){
+			         se.printStackTrace();
+			      }//end finally try	
+			}
 	}
 	
-	public static void sell()
+	public static void sell(int a)
 	{
 		
 	}
 	
 	public static void trade()
 	{
-		
+		System.out.println("Succesfully transferred laptops with owner");
+		Points p=new Points(1);
+    	p.loadContributionValues();
+    	p.UpdateMemPoints(mem.getID(), p.getRest());
+		System.out.println("Contribution points were added");
+		System.out.println("Your current points are:"+p.getCurrPoints());
+		System.out.println("Logging out..");
+			System.exit(0);
 	}
 }
 
