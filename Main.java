@@ -222,29 +222,30 @@ public class Main {
 				ListRestaurants lr=new ListRestaurants(20);
 				lr.List();
 				if(leader){
-					System.out.println("What would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:Change contribution point values");
+					System.out.println("\nWhat would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:List all the restaurants 4:Change contribution point values");
 				}
 				else
-					System.out.println("What would you like to do? \n1:Post a new restaurant 2:Review a restaurant");
+					System.out.println("\nWhat would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:List all the restaurants");
 		    	int in1=scan.nextInt();
-				if(in1==1){
-			    	sql="SELECT MAX(id) AS LastID FROM Group1";
-			    	rs=stmt.executeQuery(sql);
-			    	rs.next();
-			    	int currid=rs.getInt("LastID");
-			    	currid++;
-			    	System.out.println("Please enter the name of the restaurtant: ");
-			    	String name=scan.next();
-			    	sql="INSERT INTO GROUP1 (id,restname) VALUES ("+currid+",'"+name+"')";
-			    	stmt.executeUpdate(sql);
-			    	System.out.println("Successfully added a new restaurant");
+		    	if(in1==1){
+ 			    	sql="SELECT MAX(id) AS LastID FROM Group1";
+ 			    	rs=stmt.executeQuery(sql);
+ 			    	rs.next();
+ 			    	int currid=rs.getInt("LastID");
+ 			    	currid++;
+ 			    	System.out.println("Please enter the name of the restaurtant: ");
+ 			    	String name=scan.next();
+ 			    	sql="INSERT INTO GROUP1 (id,restname) VALUES ("+currid+",'"+name+"')";
+ 			    	stmt.executeUpdate(sql);
+ 			    	System.out.println("Successfully added a new restaurant");
 			    	Points p=new Points(1);
 			    	p.loadContributionValues();
 			    	p.UpdateMemPoints(mem.getID(), p.getRest());
 					System.out.println("Contribution points were added");
+					System.out.println("Your current points are:"+p.getCurrPoints());
 					System.out.println("Logging out..");
-					System.exit(0);
-				}
+ 					System.exit(0);
+ 				}
 				if(in1==2){
 					System.out.println("Please select restaurant id: ");
 					int restid=scan.nextInt();
@@ -267,6 +268,7 @@ public class Main {
 				    	p.loadContributionValues();
 				    	p.UpdateMemPoints(mem.getID(), p.getRev());
 						System.out.println("Contribution points were added");
+						System.out.println("Your current points are:"+p.getCurrPoints());
 						System.out.println("Logging out..");
 						System.exit(0);
 					}
@@ -285,11 +287,16 @@ public class Main {
 				    	p.loadContributionValues();
 				    	p.UpdateMemPoints(mem.getID(), p.getRate());
 						System.out.println("Contribution points were added");
+						System.out.println("Your current points are:"+p.getCurrPoints());
 						System.out.println("Logging out..");
 						System.exit(0);
 					}
 				}
-				if((in1==3)&&leader){
+				if(in1==3){
+					ListRestaurants lr1=new ListRestaurants();
+					lr1.List();
+				}
+				if((in1==4)&&leader){
 					Points p=new Points(1);
 					p.showContributionValue();
 					System.out.println("Chose which value to change. \n1:Adding Restaurant 2:Rating 3:Review 4:Logout");
@@ -319,7 +326,7 @@ public class Main {
 					System.out.println("Logging out..");
 				}
 				else
-					System.out.println("Wrong Commnad");
+					System.out.println("Logging out..");
 						
 			}
 			catch(SQLException err){

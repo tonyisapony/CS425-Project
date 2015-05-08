@@ -25,8 +25,7 @@ public class ModifyMembers {
 	
 	public void displayAllMembers(){
 		Connection con=null;
-		String sql=null;
-		Scanner scan=new Scanner(System.in);	
+		String sql=null;	
 		ResultSet rs=null;
 		Statement stmt=null;
 			try{	
@@ -67,8 +66,7 @@ public class ModifyMembers {
 	//where g is the group wanted
 	public void displayGroupMembers(int g){
 		Connection con=null;
-		String sql=null;
-		Scanner scan=new Scanner(System.in);			
+		String sql=null;		
 		ResultSet rs=null;
 		Statement stmt=null;
 			try{	

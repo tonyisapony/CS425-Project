@@ -12,6 +12,7 @@ public class Points {
 	static int rest;
 	static int rate;
 	static int rev;
+	static int currpoints;
 	
 	public Points(int g) {
 		group=g;
@@ -118,7 +119,7 @@ public class Points {
 				sql="SELECT MEMPOINTS FROM Membership WHERE id="+id;
 				rs=stmt.executeQuery(sql);
 				rs.next();
-				int currpoints=rs.getInt("mempoints");
+				currpoints=rs.getInt("mempoints");
 				currpoints+=p;
 				sql="UPDATE MEMBERSHIP SET MEMPOINTS="+currpoints+" WHERE id="+id;
 				stmt.executeUpdate(sql);
@@ -152,5 +153,8 @@ public class Points {
 	}
 	public int getRev(){
 		return rev;
+	}
+	public int getCurrPoints(){
+		return currpoints;
 	}
 }
