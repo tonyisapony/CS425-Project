@@ -179,6 +179,7 @@ public class Main {
 		Connection con=null;
 		String sql=null;
 		Scanner scan=new Scanner(System.in);
+		ResultSet rs3=null;
 		ResultSet rs2=null;
 		ResultSet rs1=null;
 		ResultSet rs=null;
@@ -218,33 +219,45 @@ public class Main {
 					else
 						mem.setMemTypeG1(MemType.MEMBER);
 				}
-				System.out.println("Now listing the 20 most recent restaurants: \n");
+				System.out.println("The top 5 point holders are:");
+				sql="SELECT name, mempoints FROM (SELECT name, mempoints FROM MEMBERSHIP ORDER BY MEMPOINTS DESC) "
+						+ "WHERE ROWNUM<=5 ORDER BY MEMPOINTS ASC";
+				rs3=stmt.executeQuery(sql);
+				int i=5;
+				while(rs3.next()&&i>0){
+					String n=rs3.getString("name");
+					int points=rs3.getInt("mempoints");
+					System.out.println(i+": "+n+" with "+points+" points");
+					i--;
+				}
+				System.out.println("\nNow listing the 20 most recent restaurants: \n");
 				ListRestaurants lr=new ListRestaurants(20);
 				lr.List();
 				if(leader){
-					System.out.println("What would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:Change contribution point values");
+					System.out.println("\nWhat would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:List all the restaurants 4:Change contribution point values");
 				}
 				else
-					System.out.println("What would you like to do? \n1:Post a new restaurant 2:Review a restaurant");
+					System.out.println("\nWhat would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:List all the restaurants");
 		    	int in1=scan.nextInt();
-				if(in1==1){
-			    	sql="SELECT MAX(id) AS LastID FROM Group1";
-			    	rs=stmt.executeQuery(sql);
-			    	rs.next();
-			    	int currid=rs.getInt("LastID");
-			    	currid++;
-			    	System.out.println("Please enter the name of the restaurtant: ");
-			    	String name=scan.next();
-			    	sql="INSERT INTO GROUP1 (id,restname) VALUES ("+currid+",'"+name+"')";
-			    	stmt.executeUpdate(sql);
-			    	System.out.println("Successfully added a new restaurant");
+		    	if(in1==1){
+ 			    	sql="SELECT MAX(id) AS LastID FROM Group1";
+ 			    	rs=stmt.executeQuery(sql);
+ 			    	rs.next();
+ 			    	int currid=rs.getInt("LastID");
+ 			    	currid++;
+ 			    	System.out.println("Please enter the name of the restaurtant: ");
+ 			    	String name=scan.next();
+ 			    	sql="INSERT INTO GROUP1 (id,restname) VALUES ("+currid+",'"+name+"')";
+ 			    	stmt.executeUpdate(sql);
+ 			    	System.out.println("Successfully added a new restaurant");
 			    	Points p=new Points(1);
 			    	p.loadContributionValues();
 			    	p.UpdateMemPoints(mem.getID(), p.getRest());
 					System.out.println("Contribution points were added");
+					System.out.println("Your current points are:"+p.getCurrPoints());
 					System.out.println("Logging out..");
-					System.exit(0);
-				}
+ 					System.exit(0);
+ 				}
 				if(in1==2){
 					System.out.println("Please select restaurant id: ");
 					int restid=scan.nextInt();
@@ -267,6 +280,7 @@ public class Main {
 				    	p.loadContributionValues();
 				    	p.UpdateMemPoints(mem.getID(), p.getRev());
 						System.out.println("Contribution points were added");
+						System.out.println("Your current points are:"+p.getCurrPoints());
 						System.out.println("Logging out..");
 						System.exit(0);
 					}
@@ -285,11 +299,16 @@ public class Main {
 				    	p.loadContributionValues();
 				    	p.UpdateMemPoints(mem.getID(), p.getRate());
 						System.out.println("Contribution points were added");
+						System.out.println("Your current points are:"+p.getCurrPoints());
 						System.out.println("Logging out..");
 						System.exit(0);
 					}
 				}
-				if((in1==3)&&leader){
+				if(in1==3){
+					ListRestaurants lr1=new ListRestaurants();
+					lr1.List();
+				}
+				if((in1==4)&&leader){
 					Points p=new Points(1);
 					p.showContributionValue();
 					System.out.println("Chose which value to change. \n1:Adding Restaurant 2:Rating 3:Review 4:Logout");
@@ -319,7 +338,7 @@ public class Main {
 					System.out.println("Logging out..");
 				}
 				else
-					System.out.println("Wrong Commnad");
+					System.out.println("Logging out..");
 						
 			}
 			catch(SQLException err){

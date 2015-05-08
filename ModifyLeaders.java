@@ -19,8 +19,7 @@ public class ModifyLeaders {
 	
 	public void CheckLeaders(){
 		Connection con=null;
-		String sql=null;
-		Scanner scan=new Scanner(System.in);			
+		String sql=null;		
 		ResultSet rs=null;
 		Statement stmt=null;
 			try{	
@@ -60,8 +59,7 @@ public class ModifyLeaders {
 	
 	public void AddLeader(int id, int g){
 			Connection con=null;
-			String sql=null;
-			Scanner scan=new Scanner(System.in);			
+			String sql=null;			
 			Statement stmt=null;
 				try{	
 					OracleDataSource ds=new OracleDataSource();

@@ -11,7 +11,9 @@ public class ListRestaurants {
 	static final String uName="restrad2";
 	static final String uPass="tsukuyomi";
 	static int numToPrint=0;
+	boolean flag=false;
 	public ListRestaurants() {
+		flag=true;
 	}
 	public ListRestaurants(int n){
 		numToPrint=n;
@@ -20,14 +22,13 @@ public class ListRestaurants {
 		ListRestaurants lr=new ListRestaurants(20);
 		lr.List();
 		while(true){
-			//lr.List();
+			lr.List();
 		}
 	}
 
 	public void List(){
 		Connection con=null;
-		String sql=null;
-		Scanner scan=new Scanner(System.in);			
+		String sql=null;			
 		ResultSet rs=null;
 		Statement stmt=null;
 			try{	
@@ -35,10 +36,10 @@ public class ListRestaurants {
 				ds.setURL(host);
 				con=ds.getConnection(uName,uPass);
 				stmt=con.createStatement();
-				if(numToPrint==0)
-					sql="SELECT * From GROUP1 ORDER BY ID DESC";
+				if(flag)
+					sql="SELECT * From GROUP1";
 				else
-					sql="SELECT * From GROUP1 WHERE ROWNUM<=20 ORDER BY ID DESC";
+					sql="SELECT * FROM (SELECT * From GROUP1 ORDER BY ID DESC) WHERE ROWNUM<=20";
 	    		rs=stmt.executeQuery(sql);
 	    		while(rs.next()){
 	    			int id=rs.getInt("id");

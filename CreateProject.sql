@@ -106,7 +106,13 @@ CREATE TABLE Group2Points(
     
 CREATE VIEW viewAll AS SELECT id,name,mempoints FROM MEMBERSHIP;
     
+<<<<<<< HEAD
 INSERT INTO Group1Points (Contribution) VALUES('add rest');
 INSERT INTO Group1Points (Contribution) VALUES('rate');
 INSERT INTO Group1Points (Contribution) VALUES('review');
 /*save to pull*/
+=======
+INSERT INTO Group1Points (Contribution,NumPoints) VALUES('addRest',3);
+INSERT INTO Group1Points (Contribution,NumPoints) VALUES('rate',1);
+INSERT INTO Group1Points (Contribution,NumPoints) VALUES('review',2);
+>>>>>>> origin/master
