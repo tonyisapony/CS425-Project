@@ -221,14 +221,14 @@ public class Main {
 				}
 				System.out.println("The top 5 point holders are:");
 				sql="SELECT name, mempoints FROM (SELECT name, mempoints FROM MEMBERSHIP ORDER BY MEMPOINTS DESC) "
-						+ "WHERE ROWNUM<=5 ORDER BY MEMPOINTS ASC";
+						+ "WHERE ROWNUM<=5 ORDER BY MEMPOINTS DESC";
 				rs3=stmt.executeQuery(sql);
-				int i=5;
+				int i=1;
 				while(rs3.next()&&i>0){
 					String n=rs3.getString("name");
 					int points=rs3.getInt("mempoints");
 					System.out.println(i+": "+n+" with "+points+" points");
-					i--;
+					i++;
 				}
 				System.out.println("\nNow listing the 20 most recent restaurants: \n");
 				ListRestaurants lr=new ListRestaurants(20);
