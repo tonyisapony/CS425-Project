@@ -14,7 +14,7 @@
   DROP TABLE Group1Points;
   DROP TABLE Group2Points;
   DROP TABLE Membership;
- 
+ /*lol*/
   
 
 CREATE TABLE Membership(
@@ -79,7 +79,7 @@ CREATE TABLE Group2Members(
     );
   
   CREATE TABLE LaptopComments(
-  CommentID INT NOT NULL,
+    ID INT NOT NULL,
     LapID INT NOT NULL,
     FOREIGN KEY(LapID) REFERENCES Group2 ON DELETE CASCADE,
     MemID INT NOT NULL,
