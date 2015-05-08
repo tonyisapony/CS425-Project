@@ -373,6 +373,7 @@ public class Main {
 		ResultSet rs2=null;
 		Statement stmt=null;
 		boolean newmem=true;
+		Scanner scan1=new Scanner(System.in);
 		boolean leader=false;
 			try{	
 				OracleDataSource ds=new OracleDataSource();
@@ -421,7 +422,137 @@ public class Main {
 				}
 				else
 					System.out.println("What would you like to do? \n1:Post a new laptop 2:Review a laptop");
-				
+				int in1=scan.nextInt();
+				if(in1==1)
+				{
+					sql="SELECT MAX(id) AS LastID FROM Group1";
+ 			    	rs=stmt.executeQuery(sql);
+ 			    	rs.next();
+ 			    	int currid=rs.getInt("LastID");
+ 			    	currid++;
+ 			    	System.out.println("Please enter the name of the Laptop");
+ 			    	String name=scan.next();
+ 			    	System.out.println("Please enter the brand of the Laptop");
+ 			    	String brand=scan.next();
+ 			    	sql="INSERT INTO GROUP2 (id,laptopname,brand) VALUES ("+currid+",'"+name+"', '"+brand+"')";
+ 			    	stmt.executeUpdate(sql);
+ 			    	System.out.println("Successfully added the new Laptop!");
+			    	Points p=new Points(1);
+			    	p.loadContributionValues();
+			    	p.UpdateMemPoints(mem.getID(), p.getRest());
+					System.out.println("Contribution points were added");
+					System.out.println("Your current points are:"+p.getCurrPoints());
+					System.out.println("Logging out..");
+ 					System.exit(0);
+				}
+				if(in1==2)
+				{
+					System.out.println("You can now search all the comments for a specific brand or you can search for specific types of comments on all computers.\n 1:Brand   2:Type of Comment");
+					int in2=scan.nextInt();
+					if(in2==1)
+					{
+						System.out.println("Type in the brand of computer you want to search by:");
+						String brand1=scan.next();
+						System.out.println("Collecting data");
+						sql="SELECT * FROM GROUP2 WHERE brand = "+brand1;
+						rs=stmt.executeQuery(sql);
+						while(rs.next()){
+							int num=rs.getInt("id");
+							String name=rs.getString("laptopname");
+							System.out.println("ID: "+num+ "Laptop name: "+name);
+						}
+						
+						System.out.println("Please select laptop id: ");
+						int id=scan.nextInt();
+						System.out.println("Outputting the current comments...");
+						sql="SELECT * FROM LAPTOPCOMMENTS WHERE lapID="+id;
+						rs=stmt.executeQuery(sql);
+						while(rs.next()){
+							int comment=rs.getInt("id");
+							String rev=rs.getString("Comment");
+							String type=rs.getString("Commenttype");
+							System.out.println("ID: " +comment+"Comment: "+rev+"  The person who posted this comment is looking to: " +type+ "this laptop.");	
+						}
+						
+						System.out.println("Please select comment id: ");
+						int comid=scan.nextInt();
+						sql="SELECT * FROM LAPTOPCOMMENTS WHERE ID="+id;
+						rs=stmt.executeQuery(sql);
+						rs.next();
+							String com=rs.getString("Comment");
+							String type1=rs.getString("Commenttype");
+							System.out.println("Comment: "+com+"  Do you want to "+type1+" this laptop?");
+						
+						System.out.println("1:Yes   2:No");
+						int decision=scan.nextInt();
+						if(decision==1&&type1=="Buy")
+						{
+							System.out.println("Redirecting you to the sale screen");
+							sell();
+						}
+						else if(decision==1&&type1=="Sell")
+						{
+							System.out.println("Redirecting you to the purchase screen");
+							buy();
+						}
+						else if(decision==1&&type1=="Trade")
+						{
+							System.out.println("Redirecting you to the trade screen");
+							trade();
+						}
+						else
+						{
+							Points p=new Points(1);
+					    	p.loadContributionValues();
+					    	p.UpdateMemPoints(mem.getID(), p.getRest());
+							System.out.println("Contribution points were added");
+							System.out.println("Your current points are:"+p.getCurrPoints());
+							System.out.println("Logging out..");
+		 					System.exit(0);
+						}
+						
+					}
+					else if(in2==2)
+					{
+						System.out.println("You can now search specifically for a certain type of comment.");
+						System.out.println("1:Review   2:Buy   3:Sell   4:Trade   5:Help   6:Logout");
+						int comtype=scan.nextInt();
+						if(comtype==1)
+						{
+							//REVIEW
+						}
+						else if(comtype==2)
+						{
+							//BUY
+						}
+						else if(comtype==3)
+						{
+							//SELL
+						}
+						else if(comtype==4)
+						{
+							//TRADE
+						}
+						else if(comtype==5)
+						{
+							//HELP
+						}
+						else
+						{
+							System.out.println("Logging out..");
+		 					System.exit(0);
+						}
+					}
+					else
+					{
+						System.out.println("Invalid option\n Logging out...");
+						System.exit(0);
+					}
+				}
+				if(in1==3&&leader)
+				{
+					
+				}
 				
 			}
 	    	
@@ -445,5 +576,20 @@ public class Main {
 			         se.printStackTrace();
 			      }//end finally try
 		}
+	
+	public static void buy()
+	{
+		
+	}
+	
+	public static void sell()
+	{
+		
+	}
+	
+	public static void trade()
+	{
+		
+	}
 }
 
