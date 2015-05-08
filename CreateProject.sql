@@ -43,7 +43,8 @@ CREATE TABLE CreditCard(
     Company VARCHAR(30) NOT NULL,
     CardNum INT NOT NULL,
     Address VARCHAR(30) NOT NULL,
-    ExpDate DATE NOT NULL
+    ExpDate DATE NOT NULL,
+    Balance INT NOT NULL
     );
     
   CREATE TABLE Group1(
@@ -67,8 +68,8 @@ CREATE TABLE Group2(
     id INT PRIMARY KEY NOT NULL,
     LaptopName VARCHAR(30) NOT NULL,
     Brand VARCHAR(30) NOT NULL,
-    NumOfComments INT NOT NULL,
-    Rate INT NOT NULL,
+    NumOfComments INT DEFAULT 0,
+    Rate INT DEFAULT 0,
     Price INT DEFAULT 0
     );
     
@@ -108,3 +109,4 @@ CREATE VIEW viewAll AS SELECT id,name,mempoints FROM MEMBERSHIP;
 INSERT INTO Group1Points (Contribution) VALUES('add rest');
 INSERT INTO Group1Points (Contribution) VALUES('rate');
 INSERT INTO Group1Points (Contribution) VALUES('review');
+/*save to pull*/
