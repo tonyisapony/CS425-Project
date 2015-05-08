@@ -48,7 +48,7 @@ CREATE TABLE CreditCard(
   CREATE TABLE Group1(
     id INT PRIMARY KEY NOT NULL,
     RestName VARCHAR(30) NOT NULL,
-    Rating REAL NOT NULL
+    Rating REAL DEFAULT 0
     );
     
   CREATE TABLE Group1Members(
@@ -58,7 +58,7 @@ CREATE TABLE CreditCard(
   
   CREATE TABLE Review(
     RestID INT NOT NULL,
-    FOREIGN KEY(RestID) REFERENCES Group1(id),
+    FOREIGN KEY(RestID) REFERENCES Group1(id) ON DELETE CASCADE,
     Review VARCHAR(180) NOT NULL
     );
   
@@ -76,14 +76,14 @@ CREATE TABLE Group2Members(
   
   CREATE TABLE LaptopComments(
     LapID INT NOT NULL,
-    FOREIGN KEY(LapID) REFERENCES Group2,
+    FOREIGN KEY(LapID) REFERENCES Group2 ON DELETE CASCADE,
     MemID INT NOT NULL,
-    FOREIGN KEY(MemID) REFERENCES MEMBERSHIP,
+    FOREIGN KEY(MemID) REFERENCES MEMBERSHIP ON DELETE CASCADE,
     Comments VARCHAR(30)NOT NULL,
     CommentType VARCHAR(30) NOT NULL
     CHECK(CommentType='Help' OR CommentType='Review' OR CommentType='Sell' OR CommentType='Buy' OR CommentType='Trade'),
     NumOfComments INT NOT NULL,
-    Price INT NOT NULL
+    Price INT DEFAULT 0
     );
   
   CREATE TABLE Leader(
