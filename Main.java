@@ -18,6 +18,7 @@ public class Main {
 		String sql=null;
 		Scanner scan=new Scanner(System.in);			
 		ResultSet rs=null;
+		ResultSet rs1=null;
 		Statement stmt=null;
 		try{	
 			
@@ -86,7 +87,7 @@ public class Main {
 		    
 		    if(admin){
 		    	System.out.println("Please chose what would you like to do. \n1:Add Leader 2:Remove Leader 3:View Member list "
-		    			+ "4:Look at a Group list 5:Delete Member 6: Logout");
+		    			+ "4:Look at a Group list 5:Delete Member 6:Show members without financial information set up 7:Logout");
 		    	int adin=scan.nextInt();
 	    		ModifyMembers mm=new ModifyMembers();
 		    	if(adin==1){
@@ -124,12 +125,22 @@ public class Main {
 		    		int del=scan.nextInt();
 		    		mm.deleteMember(del);
 		    	}
+		    	else if(adin==6){
+		    		sql="SELECT * FROM MEMBERSHIP WHERE Balance<500";
+		    		rs1=stmt.executeQuery(sql);
+		    		System.out.println("Displaying the members without financial information:");
+					while(rs1.next()){
+						int id=rs1.getInt("id");
+						String name=rs1.getString("name");
+						System.out.println("Member ID:"+id+"     User name:"+name);
+					}
+		    	}
 		    	System.out.println("Goodbye!");
 		    	System.exit(0);
 		    }
 		    
 			System.out.println("You are now logged in please choose what interest group you would like to access. "
-					+ "\n1:Restaurants 2:Laptops 3: Delete Account 4: Logout");
+					+ "\n1:Restaurants 2:Laptops 3:Add Bank Account or Credit Card 4:Delete Account 5:Logout");
 				
 	    	int in1=scan.nextInt();
 	    	if (in1==1)
@@ -141,6 +152,36 @@ public class Main {
 	    		Laptops();
 	    	}
 	    	else if(in1==3){
+	    		System.out.println("Which one would you like to add? \n1:Bank Account 2:Credit Card");
+	    		int in2=scan.nextInt();
+	    		if(in2==1){
+	    			System.out.println("Enter bank name: ");
+	    			String bn=scan.next();
+	    			System.out.println("Enter routing number: ");
+	    			String rn=scan.next();
+	    			System.out.println("Enter accont number: ");
+	    			String an=scan.next();
+	    			sql="INSERT INTO BANKACC(memid,bankname,routnumber,accnum)VALUES("+mem.getID()+",'"+bn+"','"+rn+"','"+an+"')";
+	    			stmt.executeUpdate(sql);
+	    			System.out.println("Successfully added bank account");
+	    		}
+	    		else if(in2==2){
+	    			System.out.println("Enter card name: ");
+	    			String cn=scan.next();
+	    			System.out.println("Enter company: ");
+	    			String co=scan.next();
+	    			System.out.println("Enter card number: ");
+	    			String cnum=scan.next();
+	    			System.out.println("Enter address: ");
+	    			String address=scan.next();
+	    			System.out.println("Enter expiration date yyyy-mm-dd: ");
+	    			String date=scan.next();
+	    			//sql="INSERT INTO CREDITCARD(memid,cardname,company,cardnum,address,expdate)VALUES("+mem.getID()+",'"+cn+"','"+co+"','"cn+"')";
+	    			//stmt.executeUpdate(sql);
+	    			System.out.println("Successfully added bank account");
+	    		}
+	    	}
+	    	else if(in1==4){
 	    		sql="DELETE FROM MEMBERSHIP WHERE id="+mem.getID();
 	    		stmt.executeUpdate(sql);
 	    		System.out.println("Successfully deleted your account, goodbye!");

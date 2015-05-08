@@ -44,7 +44,7 @@ CREATE TABLE CreditCard(
     CardNum INT UNIQUE NOT NULL,
     Address VARCHAR(30) NOT NULL,
     ExpDate DATE NOT NULL,
-    Balance INT NOT NULL
+    Balance INT DEFAULT 0
     );
     
   CREATE TABLE Group1(
