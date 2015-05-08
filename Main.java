@@ -581,7 +581,8 @@ public class Main {
 	{
 		System.out.println("You are now in the purchase menu all transactions done through here are final.");
 		Connection con=null;
-		String sql=null;			
+		String sql=null;	
+		Scanner scan=new Scanner(System.in);
 		ResultSet rs=null;
 		Statement stmt=null;
 			try{	
@@ -594,9 +595,39 @@ public class Main {
 				rs.next();
 				String com=rs.getString("Comment");
 				String type1=rs.getString("Commenttype");
-				System.out.println("Comment: "+com+"  Do you want to "+type1+" this laptop?");
+				System.out.println("Comment: "+com+"  Do you want to buy this laptop?");
+				
+				sql="SELECT price FROM GROUP2 WHERE ID="+a;
+				rs=stmt.executeQuery(sql);
+				rs.next();
+				int price=rs.getInt("Price");
+				System.out.println("The price of this laptop is: $"+price);
 			
 			    System.out.println("1:Yes   2:No");
+			    int decision = scan.nextInt();
+			    		if(decision ==1)
+			    		{
+			    			sql="SELECT balance FROM MEMBERSHIP WHERE ID="+mem.getID();
+			    			rs=stmt.executeQuery(sql);
+			    			rs.next();
+			    			int balance=rs.getInt("Balance");
+			    			if(balance>=price)
+			    			{
+			    				
+			    				
+			    			}
+			    			else if(balance<=price)
+			    			{
+			    				System.out.println("Unfortunately you don't have the necessary funds required for this purchase.\n Try transferring some from your bank account or credit card onto the website.");
+			    				System.out.println("Logging out..");
+			 					System.exit(0);
+			    			}
+			    		}
+			    		else if(decision ==2)
+			    		{
+			    			System.out.println("Logging out..");
+		 					System.exit(0);
+			    		}
 			}
 			catch(SQLException err){
 				System.out.println(err.getMessage());
