@@ -164,7 +164,7 @@ public class ListLaptops {
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
+				  
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){

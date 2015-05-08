@@ -52,7 +52,6 @@ public class ListRestaurants {
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){
@@ -61,12 +60,11 @@ public class ListRestaurants {
 			    	  rs.close();
 			 	  }catch(SQLException se){
 			 	  }// do nothing
-			      }
 			      try{
 			          con.close();
 			      }catch(SQLException se){
 			         se.printStackTrace();
 			      }//end finally try
-		}
+		}}
 }
 

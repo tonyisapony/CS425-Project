@@ -33,12 +33,13 @@ public class ModifyLeaders {
 				rs.next();
 				leaders=rs.getInt("LeaNum");
 				
+				
 			}
 			catch(SQLException err){
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
+				  
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){
@@ -85,7 +86,7 @@ public class ModifyLeaders {
 					System.out.println(err.getMessage());
 				}finally{
 				      //finally block used to close resources
-					  scan.close();
+					  
 				      try{
 				            stmt.close();
 				      }catch(SQLException se){
@@ -118,7 +119,7 @@ public class ModifyLeaders {
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
+				  
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){
@@ -129,6 +130,47 @@ public class ModifyLeaders {
 			         se.printStackTrace();
 			      }//end finally try	
 
+			}
+
+	}
+	
+	public void ShowLeaders(){
+		Connection con=null;
+		String sql=null;
+		Scanner scan=new Scanner(System.in);			
+		ResultSet rs=null;
+		Statement stmt=null;
+			try{	
+				OracleDataSource ds=new OracleDataSource();
+				ds.setURL(host);
+				con=ds.getConnection(uName,uPass);
+				stmt=con.createStatement();
+				sql="SELECT id,name FROM Membership,LEADER WHERE id=memid AND groupnum="+group;
+				rs=stmt.executeQuery(sql);
+				while(rs.next()){
+					int i=rs.getInt("id");
+					String n=rs.getString("name");
+					System.out.println("Member ID:"+i+"     User name:"+n);
+				}		
+			}
+			catch(SQLException err){
+				System.out.println(err.getMessage());
+			}finally{
+			      //finally block used to close resources
+			      try{
+			            stmt.close();
+			      }catch(SQLException se){
+			      }// do nothing
+			      try{
+			    	  rs.close();
+			 	  }catch(SQLException se){
+			 	  }// do nothing
+			      
+			      try{
+			          con.close();
+			      }catch(SQLException se){
+			         se.printStackTrace();
+			      }//end finally try	
 			}
 	}
 

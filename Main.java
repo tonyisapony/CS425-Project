@@ -85,15 +85,17 @@ public class Main {
 		    }
 		    
 		    if(admin){
-		    	System.out.println("Please chose what would you like to do. \n1: Add Leader 2: Remove Leader 3: Look at Member list "
-		    			+ "4: Look at a Group list 5: Delete Member 6: Logout");
+		    	System.out.println("Please chose what would you like to do. \n1:Add Leader 2:Remove Leader 3:View Member list "
+		    			+ "4:Look at a Group list 5:Delete Member 6: Logout");
 		    	int adin=scan.nextInt();
 	    		ModifyMembers mm=new ModifyMembers();
 		    	if(adin==1){
 		    		System.out.println("Enter which group to add the leader to. 1:Group1 2:Group2");
 		    		int g=scan.nextInt();
 		    		ModifyLeaders ml=new ModifyLeaders(g);
-		    		System.out.println("Enter the ID of the new leader: ");
+		    		System.out.println("The current leaders are: ");
+		    		ml.ShowLeaders();
+		    		System.out.println("\nEnter the ID of the new leader from the following list: ");
 		    		mm.displayGroupMembers(g);
 		    		int add=scan.nextInt();
 		    		ml.AddLeader(add, g);
@@ -102,8 +104,9 @@ public class Main {
 		    		System.out.println("Enter which group to remove the leader from. 1:Group1 2:Group2");
 		    		int g=scan.nextInt();
 		    		ModifyLeaders ml=new ModifyLeaders(g);
-		    		System.out.println("Enter the ID of the new leader: ");
-		    		mm.displayGroupMembers(g);
+		    		System.out.println("The current leaders are: ");
+		    		ml.ShowLeaders();
+		    		System.out.println("\nEnter the ID of the leader you want to remove: ");
 		    		int del=scan.nextInt();
 		    		ml.AddLeader(del, g);
 		    	}
@@ -175,23 +178,39 @@ public class Main {
 		System.out.println("You have now been signed into the Restaurant Interest Group.");
 		Connection con=null;
 		String sql=null;
-		Scanner scan=new Scanner(System.in);			
+		Scanner scan=new Scanner(System.in);
+		ResultSet rs2=null;
 		ResultSet rs1=null;
 		ResultSet rs=null;
-		ResultSet rs3=null;
 		Statement stmt=null;
+		boolean newmem=true;
 			try{	
 				OracleDataSource ds=new OracleDataSource();
 				ds.setURL(host);
 				con=ds.getConnection(uName,uPass);
 				stmt=con.createStatement();
+				sql="SELECT * FROM GROUP1MEMBERS";
+				rs2=stmt.executeQuery(sql);
+				while(rs2.next()){
+					int g1mem=rs2.getInt("memid");
+					if(g1mem==mem.getID()){
+						newmem=false;
+					}
+				}
+				if(newmem){
+					sql="INSERT INTO Group1Members (memid) VALUES("+mem.getID()+")";
+					stmt.executeUpdate(sql);
+					System.out.println("Welcome newcomer!");
+				}
+				else
+					System.out.println("Welcome back!");
 				sql="SELECT memID FROM LEADER WHERE GroupNum=1";
 				rs1=stmt.executeQuery(sql);
 				while(rs1.next()){
 					int id=rs1.getInt("memID");
 
 					if(id==mem.getID()){
-						System.out.println("\nYou are an admin for this group\n");
+						System.out.println("\nYou are a leader for this group\n");
 						mem.setMemTypeG1(MemType.LEADER);
 					}
 				}
@@ -199,8 +218,8 @@ public class Main {
 				ListRestaurants lr=new ListRestaurants(20);
 				lr.List();
 				System.out.println("What would you like to do? \n 1:Post a new restaurant 2: Review a restaurant");
-				int in=scan.nextInt();
-				if(in==1){
+		    	int in1=scan.nextInt();
+				if(in1==1){
 			    	sql="SELECT MAX(id) AS LastID FROM Group1";
 			    	rs=stmt.executeQuery(sql);
 			    	rs.next();
@@ -213,7 +232,7 @@ public class Main {
 			    	System.out.println("Successfully added a new restaurant");
 					System.exit(0);
 				}
-				if(in==2){
+				if(in1==2){
 					System.out.println("Please select restaurant id: ");
 					int restid=scan.nextInt();
 					System.out.println("Outputting the current reviews...");
@@ -223,10 +242,10 @@ public class Main {
 						String rev=rs.getString("review");
 						System.out.println("Review: "+rev);
 					}
-					System.out.println("What would you like to do? 1:Add a review 2:Rate the restaurant");
+					System.out.println("\nWhat would you like to do? 1:Add a review 2:Rate the restaurant");
 					int resin=scan.nextInt();
 					if(resin==1){
-						System.out.println("Enter the review: ");
+						System.out.println("Please enter a one word review: ");
 						String rev=scan.next();
 						sql="INSERT INTO REVIEW (RestID,Review) VALUES ("+restid+",'"+rev+"')";
 						stmt.executeUpdate(sql);

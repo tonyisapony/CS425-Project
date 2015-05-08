@@ -19,7 +19,6 @@ public class ModifyMembers {
 		ModifyMembers mm=new ModifyMembers();
 		
 		while(true){
-			System.out.println("hi");
 			mm.displayAllMembers();
 		}
 	}
@@ -27,7 +26,7 @@ public class ModifyMembers {
 	public void displayAllMembers(){
 		Connection con=null;
 		String sql=null;
-		Scanner scan=new Scanner(System.in);			
+		Scanner scan=new Scanner(System.in);	
 		ResultSet rs=null;
 		Statement stmt=null;
 			try{	
@@ -35,20 +34,19 @@ public class ModifyMembers {
 				ds.setURL(host);
 				con=ds.getConnection(uName,uPass);
 				stmt=con.createStatement();
-				sql="SELECT id,name,mempoints FROM MEMBERSHIP";
+				sql="SELECT * FROM viewAll";
 				rs=stmt.executeQuery(sql);
 				while(rs.next()){
 					int id=rs.getInt("id");
 					String name=rs.getString("name");
 					int points=rs.getInt("mempoints");
-					System.out.println("Member ID:"+id+" User name:"+name+" Points:"+points);
+					System.out.println("Member ID:"+id+"     User name:"+name+"     Points:"+points);
 				}
 			}
 			catch(SQLException err){
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){
@@ -91,7 +89,7 @@ public class ModifyMembers {
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
+				  
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){
@@ -128,7 +126,7 @@ public class ModifyMembers {
 				System.out.println(err.getMessage());
 			}finally{
 			      //finally block used to close resources
-				  scan.close();
+				  
 			      try{
 			            stmt.close();
 			      }catch(SQLException se){

@@ -11,7 +11,8 @@
   DROP TABLE Group2;
   DROP TABLE Group2Members;
   DROP TABLE Leader;
-  DROP TABLE Points;
+  DROP TABLE Group1Points;
+  DROP TABLE Group2Points;
   DROP TABLE Membership;
  
   
@@ -92,7 +93,17 @@ CREATE TABLE Group2Members(
     GroupNum INT NOT NULL
     );
   
-  CREATE TABLE Points(
+CREATE TABLE Group1Points(
     Contribution VARCHAR(30) NULL,
-    NumPoints INT NOT NULL
+    NumPoints INT DEFAULT 0
     );
+CREATE TABLE Group2Points(
+    Contribution VARCHAR(30) NULL,
+    NumPoints INT DEFAULT 0
+    );
+    
+CREATE VIEW viewAll AS SELECT id,name,mempoints FROM MEMBERSHIP;
+    
+INSERT INTO Group1Points (Contribution) VALUES('add rest');
+INSERT INTO Group1Points (Contribution) VALUES('rate');
+INSERT INTO Group1Points (Contribution) VALUES('review');
