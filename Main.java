@@ -434,10 +434,11 @@ public class Main {
  			    	String name=scan.next();
  			    	System.out.println("Please enter the brand of the Laptop");
  			    	String brand=scan.next();
+ 			    	brand.toUpperCase();
  			    	sql="INSERT INTO GROUP2 (id,laptopname,brand) VALUES ("+currid+",'"+name+"', '"+brand+"')";
  			    	stmt.executeUpdate(sql);
  			    	System.out.println("Successfully added the new Laptop!");
-			    	Points p=new Points(1);
+ 			    	Points p=new Points(1);
 			    	p.loadContributionValues();
 			    	p.UpdateMemPoints(mem.getID(), p.getRest());
 					System.out.println("Contribution points were added");
@@ -454,7 +455,7 @@ public class Main {
 						System.out.println("Type in the brand of computer you want to search by:");
 						String brand1=scan.next();
 						System.out.println("Collecting data");
-						sql="SELECT * FROM GROUP2 WHERE BRAND = "+brand1;
+						sql="SELECT id,laptopname FROM GROUP2 WHERE brand ='"+brand1+"'";
 						rs=stmt.executeQuery(sql);
 						while(rs.next()){
 							int num=rs.getInt("id");
@@ -465,21 +466,20 @@ public class Main {
 						System.out.println("Please select laptop id: ");
 						int id=scan.nextInt();
 						System.out.println("Outputting the current comments...");
-						sql="SELECT * FROM LAPTOPCOMMENTS WHERE lapID="+id;
+						sql="SELECT * FROM LAPTOPCOMMENTS WHERE lapid="+id;
 						rs=stmt.executeQuery(sql);
 						while(rs.next()){
 							int comment=rs.getInt("id");
-							String rev=rs.getString("Comment");
+							String rev=rs.getString("Comments");
 							String type=rs.getString("Commenttype");
-							System.out.println("ID: " +comment+"Comment: "+rev+"  The person who posted this comment is looking to: " +type+ "this laptop.");	
+							System.out.println("ID: " +comment+"Comment: "+rev+"  The person who posted this comment is looking to: " +type+ " this laptop.");	
 						}
-						
 						System.out.println("Please select comment id: ");
 						int comid=scan.nextInt();
 						sql="SELECT * FROM LAPTOPCOMMENTS WHERE ID="+comid;
 						rs=stmt.executeQuery(sql);
 						rs.next();
-							String com=rs.getString("Comment");
+							String com=rs.getString("Comments");
 							String type1=rs.getString("Commenttype");
 							System.out.println("Comment: "+com+"  Do you want to "+type1+" this laptop?");
 						
@@ -500,7 +500,7 @@ public class Main {
 							System.out.println("Redirecting you to the trade screen");
 							trade();
 						}
-						else
+						else if(decision==2)
 						{
 							Points p=new Points(1);
 					    	p.loadContributionValues();
@@ -621,7 +621,7 @@ public class Main {
 	
 	public static void sell(int a)
 	{
-		
+		System.out.println("You are now in the selling screen. Remember: All sales are final!");
 	}
 	
 	public static void trade()
