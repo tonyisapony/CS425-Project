@@ -481,7 +481,7 @@ public class Main {
 						rs.next();
 							String com=rs.getString("Comments");
 							String type1=rs.getString("Commenttype");
-							System.out.println("Comment: "+com+"  Do you want to "+type1+" this laptop?");
+							System.out.println("Comment: "+com+"  The owner wants to "+type1+" this laptop. Proceed with transaction?");
 						
 						System.out.println("1:Yes   2:No");
 						int decision=scan.nextInt();
