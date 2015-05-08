@@ -37,7 +37,7 @@ public class Member {
 	public MemType getMemTypeG1(){
 		return this.group1;
 	}
-	public MemType getMeTypeG3(){
+	public MemType getMeTypeG2(){
 		return this.group2;
 	}
 }

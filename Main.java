@@ -184,6 +184,7 @@ public class Main {
 		ResultSet rs=null;
 		Statement stmt=null;
 		boolean newmem=true;
+		boolean leader=false;
 			try{	
 				OracleDataSource ds=new OracleDataSource();
 				ds.setURL(host);
@@ -212,12 +213,19 @@ public class Main {
 					if(id==mem.getID()){
 						System.out.println("\nYou are a leader for this group\n");
 						mem.setMemTypeG1(MemType.LEADER);
+						leader=true;
 					}
+					else
+						mem.setMemTypeG1(MemType.MEMBER);
 				}
 				System.out.println("Now listing the 20 most recent restaurants: \n");
 				ListRestaurants lr=new ListRestaurants(20);
 				lr.List();
-				System.out.println("What would you like to do? \n 1:Post a new restaurant 2: Review a restaurant");
+				if(leader){
+					System.out.println("What would you like to do? \n1:Post a new restaurant 2:Review a restaurant 3:Change contribution point values");
+				}
+				else
+					System.out.println("What would you like to do? \n1:Post a new restaurant 2:Review a restaurant");
 		    	int in1=scan.nextInt();
 				if(in1==1){
 			    	sql="SELECT MAX(id) AS LastID FROM Group1";
@@ -230,6 +238,11 @@ public class Main {
 			    	sql="INSERT INTO GROUP1 (id,restname) VALUES ("+currid+",'"+name+"')";
 			    	stmt.executeUpdate(sql);
 			    	System.out.println("Successfully added a new restaurant");
+			    	Points p=new Points(1);
+			    	p.loadContributionValues();
+			    	p.UpdateMemPoints(mem.getID(), p.getRest());
+					System.out.println("Contribution points were added");
+					System.out.println("Logging out..");
 					System.exit(0);
 				}
 				if(in1==2){
@@ -250,6 +263,11 @@ public class Main {
 						sql="INSERT INTO REVIEW (RestID,Review) VALUES ("+restid+",'"+rev+"')";
 						stmt.executeUpdate(sql);
 						System.out.println("Successfully posted review");
+				    	Points p=new Points(1);
+				    	p.loadContributionValues();
+				    	p.UpdateMemPoints(mem.getID(), p.getRev());
+						System.out.println("Contribution points were added");
+						System.out.println("Logging out..");
 						System.exit(0);
 					}
 					if(resin==2){
@@ -263,9 +281,45 @@ public class Main {
 						sql="UPDATE Group1 SET Rating="+rating+" WHERE id="+restid;
 						stmt.executeUpdate(sql);
 						System.out.println("You have successfully rated the restaurant");
+				    	Points p=new Points(1);
+				    	p.loadContributionValues();
+				    	p.UpdateMemPoints(mem.getID(), p.getRate());
+						System.out.println("Contribution points were added");
+						System.out.println("Logging out..");
 						System.exit(0);
 					}
 				}
+				if((in1==3)&&leader){
+					Points p=new Points(1);
+					p.showContributionValue();
+					System.out.println("Chose which value to change. \n1:Adding Restaurant 2:Rating 3:Review 4:Logout");
+					int in2=scan.nextInt();
+					if(in2==1){
+						System.out.println("Enter new value: ");
+						int val=scan.nextInt();
+						sql="UPDATE Group1Points SET NUMPOINTS="+val+" WHERE Contribution='addRest'";
+						System.out.println("");
+						stmt.executeUpdate(sql);
+						System.out.println("Successfully updated the Add Restaurant contribution points");
+					}
+					else if(in2==2){
+						System.out.println("Enter new value: ");
+						int val=scan.nextInt();
+						sql="UPDATE Group1Points SET NUMPOINTS="+val+" WHERE Contribution='rate'";
+						stmt.executeUpdate(sql);
+						System.out.println("Successfully updated the Rating contribution points");
+					}
+					else if(in2==3){
+						System.out.println("Enter new value: ");
+						int val=scan.nextInt();
+						sql="UPDATE Group1Points SET NUMPOINTS="+val+" WHERE Contribution='review'";
+						stmt.executeUpdate(sql);
+						System.out.println("Successfully updated the Review contribution points");
+					}
+					System.out.println("Logging out..");
+				}
+				else
+					System.out.println("Wrong Commnad");
 						
 			}
 			catch(SQLException err){
