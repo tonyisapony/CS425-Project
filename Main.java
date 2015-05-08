@@ -369,26 +369,60 @@ public class Main {
 		String sql=null;
 		Scanner scan=new Scanner(System.in);			
 		ResultSet rs=null;
+		ResultSet rs1=null;
+		ResultSet rs2=null;
 		Statement stmt=null;
+		boolean newmem=true;
+		boolean leader=false;
 			try{	
 				OracleDataSource ds=new OracleDataSource();
 				ds.setURL(host);
 				con=ds.getConnection(uName,uPass);
 				stmt=con.createStatement();
-		    	sql="SELECT memID FROM LEADER WHERE GroupNum=2";
-	    		rs=stmt.executeQuery(sql);
-	    		int memid = mem.getID();
-	    		while(rs.next()){
-	    			int id=rs.getInt("memID");
-	    			if(id==mem.getID()){
-	    				System.out.println("You are a leader for this group");
-	    				mem.setMemTypeG2(MemType.LEADER);
-	    		}
-	    	}
-	    		System.out.println("Now listing the 20 most commented on Laptops: \n");
-				ListLaptops ll=new ListLaptops(20);
-				ll.List(memid);
+				sql="SELECT * FROM GROUP2MEMBERS";
+				rs2=stmt.executeQuery(sql);
+				while(rs2.next()){
+					int g1mem=rs2.getInt("memid");
+					if(g1mem==mem.getID()){
+						newmem=false;
+					}
+				}
+				if(newmem){
+					sql="INSERT INTO Group2Members (memid) VALUES("+mem.getID()+")";
+					stmt.executeUpdate(sql);
+					System.out.println("Welcome newcomer!");
+				}
+				else
+					System.out.println("Welcome back!");
+				sql="SELECT memID FROM LEADER WHERE GroupNum=2";
+				rs1=stmt.executeQuery(sql);
+				while(rs1.next()){
+					int id=rs1.getInt("memID");
 
+					if(id==mem.getID()){
+						System.out.println("\nYou are a leader for this group\n");
+						mem.setMemTypeG1(MemType.LEADER);
+						leader=true;
+					}
+					else
+						mem.setMemTypeG1(MemType.MEMBER);
+				
+	    	}
+				//SHOULD BE ABLE TO RATE/POST COMMENTS, NARROW COMMENTS BY SPECIFIC BRAND,REVIEW,HELP,SELL,BUY,TRADE. ETC. 
+				//ALSO BE ABLE TO BUY,SELL,TRADE.
+				//SHOULD HAVE ENOUGH MONEY IN ACCOUNT IN ORDER TO BUY
+				//MONEY IS ADDED WHEN SELLING ITEM, TRANSFER MONEY FROM BANK AND CREDIT CARD TO WEB ACCOUNT
+	    		System.out.println("Now listing the 20 most recently commented on Laptops: \n");
+				ListLaptops ll=new ListLaptops(20);
+				ll.List();
+				if(leader){
+					System.out.println("What would you like to do? \n1:Post a new laptop 2:Review a laptop 3:Change contribution point values");
+					
+				}
+				else
+					System.out.println("What would you like to do? \n1:Post a new laptop 2:Review a laptop");
+				
+				
 			}
 	    	
 			catch(SQLException err){
@@ -401,7 +435,7 @@ public class Main {
 			      }// do nothing
 			      scan.close();
 			      try{
-			    	  rs.close();
+			    	 rs2.close();
 			 	  }catch(SQLException se){
 			 	  }// do nothing
 			      }
