@@ -1,0 +1,1 @@
+CREATE VIEW viewAll AS SELECT id,name,mempoints FROM MEMBERSHIP;
