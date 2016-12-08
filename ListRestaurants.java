@@ -8,8 +8,8 @@ import oracle.jdbc.pool.OracleDataSource;
 
 public class ListRestaurants {
 	static final String host="jdbc:oracle:thin:@fourier.cs.iit.edu:1521:orcl";
-	static final String uName="restrad2";
-	static final String uPass="tsukuyomi";
+	static final String uName="";
+	static final String uPass="";
 	static int numToPrint=0;
 	boolean flag=false;
 	public ListRestaurants() {

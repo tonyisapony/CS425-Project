@@ -1,4 +1,4 @@
-import java.sql.Connection;
+simport java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,8 +9,8 @@ import oracle.jdbc.pool.OracleDataSource;
 
 public class ListLaptops {
 	static final String host="jdbc:oracle:thin:@fourier.cs.iit.edu:1521:orcl";
-	static final String uName="restrad2";
-	static final String uPass="tsukuyomi";
+	static final String uName="";
+	static final String uPass="";
 	static int numToPrint=0;
 	public ListLaptops() {
 	}
